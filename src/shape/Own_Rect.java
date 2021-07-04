@@ -1,8 +1,8 @@
 package shape;
 
 import java.awt.*;
-import java.util.Arrays;
-import java.util.Objects;
+import java.util.concurrent.atomic.AtomicBoolean;
+import java.util.stream.IntStream;
 
 public class Own_Rect {
     private double[] coordinates;
@@ -31,4 +31,19 @@ public class Own_Rect {
         return this.coordinates;
     }
 
+    public Own_Rect createClone() {
+        Own_Rect result = new Own_Rect(this.coordinates[0],this.coordinates[1],this.coordinates[2],this.coordinates[3]);
+        result.setColor(this.getColor());
+        return result;
+    }
+
+    public void changeCoords(double x, double y, double w, double h) {
+        this.coordinates = new double[]{x, y, w, h};
+    }
+
+    public boolean equal(Own_Rect c) {
+        AtomicBoolean result = new AtomicBoolean(true);
+        IntStream.range(0,this.coordinates.length).forEach(n -> {if(this.coordinates[n] != c.getCoordinates()[n]) result.set(false);});
+        return result.get() && this.getColor() == c.getColor();
+    }
 }
