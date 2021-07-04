@@ -1,6 +1,4 @@
-import shape.Own_Ellipse;
-import shape.Own_Rect;
-import shape.Own_Triangle;
+import shape.*;
 
 import javax.swing.*;
 import java.awt.*;
