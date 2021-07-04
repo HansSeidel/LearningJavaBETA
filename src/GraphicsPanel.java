@@ -21,7 +21,7 @@ public class GraphicsPanel extends JPanel {
      * @param g
      */
     @Override
-    protected void paintComponent(Graphics g){
+    protected void paintComponent(Graphics g) {
         //run the super class paintComponent with the given Graphics g again, so it runs proberly.
         //Otherwise the background Color won't be displayed
         super.paintComponent(g);
@@ -29,35 +29,47 @@ public class GraphicsPanel extends JPanel {
         //Cast the Graphics object to an 2D Object.
         this.g2d = (Graphics2D) g;
         //This line will smooth the drawings
-        this.g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
+        this.g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         //Start drawing
-        Own_Rect rect = new Own_Rect(Main.WIDTH/2-50,Main.HEIGHT/2-25,100,50);
-        drawDoubleShape(rect);
+        /*TODO implement the getClone functions for rect and triangle
+                These getClone() methods return a new Object with the exact same settings as the
+                object which is calling the method
+         */
+        Own_Rect rect1 = new Own_Rect(Main.WIDTH / 2 - 50, Main.HEIGHT / 2 - 25, 100, 50);
+        Own_Rect rect2 = rect1.createClone();
+        Own_Rect rect3 = rect1.createClone();
+        Own_Rect rect4 = rect1.createClone();
+        //TODO implement the following method:
+        rect3.changeCoords(1, 1, 100, 100);
+        System.out.println("after coords should have changed: " + Arrays.toString(rect1.getCoordinates()));
+        rect4.setColor(Color.GREEN);
 
-        Own_Triangle triangle = new Own_Triangle(1,1,1,100,100,1);
-        triangle.setColor(Color.CYAN);
-        drawDoubleShape(triangle);
+        Own_Triangle triangle1 = new Own_Triangle(1,1,4,4,10,10);
+        Own_Triangle triangle2 = triangle1.createClone();
+        Own_Triangle triangle3 = triangle1.createClone();
+        Own_Triangle triangle4 = triangle1.createClone();
+        //TODO implement the following method:
+        triangle3.changeCoords(1, 1, 100, 100,100,400);
+        triangle4.setColor(Color.YELLOW);
 
-        Own_Ellipse ellipse = new Own_Ellipse(Main.WIDTH-100,Main.HEIGHT-100,70,50);
-        ellipse.setColor(Color.ORANGE);
-        drawDoubleShape(ellipse);
+        //TODO implement "equal" for the rect and triangle class.
+        //This method is called "equal", because their is an existing "equals" Method for each Object in Java.
+        //In order, Java is not using the equals method, we'll use the name "equal" for now
+        System.out.println(rect1.equal(rect2)); //Expected result: True
+        System.out.println(rect2.equal(rect1)); //Expected result: True
+        System.out.println(rect1.equal(rect3)); //Expected result: False
+        System.out.println(rect1.equal(rect4)); //Expected result: False
+        System.out.println(rect3.equal(rect4)); //Expected result: False
+        System.out.println(rect2.equal(rect4)); //Expected result: False
 
-        //TODO implement the Own_Quad class
-        Own_Quad quad = new Own_Quad(1,Main.HEIGHT-101,100);
-        quad.setColor(Color.GREEN);
-        drawDoubleShape(quad);
+        System.out.println(triangle1.equal(triangle2)); //Expected result: True
+        System.out.println(triangle2.equal(triangle1)); //Expected result: True
+        System.out.println(triangle1.equal(triangle3)); //Expected result: False
+        System.out.println(triangle1.equal(triangle4)); //Expected result: False
+        System.out.println(triangle3.equal(triangle4)); //Expected result: False
+        System.out.println(triangle2.equal(triangle4)); //Expected result: False
 
-        //TODO implement the Own_Circle class
-        Own_Circle circle = new Own_Circle(Main.WIDTH-67,1,50);
-        circle.setColor(Color.red);
-        drawDoubleShape(circle);
-
-        /*TODO Each implementation must only have the following Methods:
-            public Constructor(params)
-
-            Example for the result is inside the TaskImages-Folder
-        */
     }
 
     /**
