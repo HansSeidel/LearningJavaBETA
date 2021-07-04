@@ -34,28 +34,32 @@ public class GraphicsPanel extends JPanel {
         this.g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING,RenderingHints.VALUE_ANTIALIAS_ON);
 
         //Start drawing
-        //TODO create the "shape" package inside the "src" folder. Add the following classes inside this package
-        //TODO implement the Own_Rect class
         Own_Rect rect = new Own_Rect(Main.WIDTH/2-50,Main.HEIGHT/2-25,100,50);
         drawDoubleShape(rect);
 
-        //TODO implement the Own_Triangle class
         Own_Triangle triangle = new Own_Triangle(1,1,1,100,100,1);
         triangle.setColor(Color.CYAN);
         drawDoubleShape(triangle);
 
-        //TODO implement the Own_Ellipse class
         Own_Ellipse ellipse = new Own_Ellipse(Main.WIDTH-100,Main.HEIGHT-100,70,50);
         ellipse.setColor(Color.ORANGE);
         drawDoubleShape(ellipse);
 
-        /*TODO each implementation must have the following Methods:
-            public Color getColor();        -> Returns a java.awt.color Color (Default color is white)
-            public double[] getCoords();    -> Returns a double[] Array which stores the coordinates
-            public String getShape();       -> Returns the name of the Shape ("rect"|"triangle"|"ellipse")
+        //TODO implement the Own_Quad class
+        Own_Quad quad = new Own_Quad(1,Main.HEIGHT-101,100);
+        quad.setColor(Color.GREEN);
+        drawDoubleShape(quad);
+
+        //TODO implement the Own_Circle class
+        Own_Circle circle = new Own_Circle(Main.WIDTH-67,1,50);
+        circle.setColor(Color.red);
+        drawDoubleShape(circle);
+
+        /*TODO Each implementation must only have the following Methods:
+            public Constructor(params)
 
             Example for the result is inside the TaskImages-Folder
-         */
+        */
     }
 
     /**
