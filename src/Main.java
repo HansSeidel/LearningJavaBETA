@@ -9,10 +9,12 @@ public class Main {
         //Initiate the frame
         JFrame frame = new JFrame();
 
-        frame.setSize(WIDTH,HEIGHT);
+        frame.setSize(WIDTH,HEIGHT+50);
         frame.setTitle("MyFrame");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setPreferredSize(new Dimension(WIDTH,HEIGHT));
+        //Little update to exclude the borders from the dimensions
+        frame.getContentPane().setPreferredSize(new Dimension(WIDTH,HEIGHT));
+        frame.pack();
         //frame.setBackground(Color.BLACK);
         //Define the window to be position in the center of the screen
         frame.setLocationRelativeTo(null);

@@ -32,44 +32,42 @@ public class GraphicsPanel extends JPanel {
         this.g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         //Start drawing
-        /*TODO implement the getClone functions for rect and triangle
-                These getClone() methods return a new Object with the exact same settings as the
-                object which is calling the method
+        /*TODO implement an IShape Interface inside the shape package for all the OwnShapes. Implement the following methods:
+            double[] getCoordinates()
+            String getShape()
+            Point getCenter() -> Returns the center of the object. (java.awt.Point)
+            double getDistanceBetween(Object o) -> Returns the distance to another Object of the same type (from Center to Center)
+
          */
         Own_Rect rect1 = new Own_Rect(Main.WIDTH / 2 - 50, Main.HEIGHT / 2 - 25, 100, 50);
         Own_Rect rect2 = rect1.createClone();
-        Own_Rect rect3 = rect1.createClone();
-        Own_Rect rect4 = rect1.createClone();
-        //TODO implement the following method:
-        rect3.changeCoords(1, 1, 100, 100);
-        System.out.println("after coords should have changed: " + Arrays.toString(rect1.getCoordinates()));
-        rect4.setColor(Color.GREEN);
+        rect2.setColor(Color.BLUE);
+        rect2.changeCoords(1, 1, 100, 100);
 
-        Own_Triangle triangle1 = new Own_Triangle(1,1,4,4,10,10);
+
+        Own_Triangle triangle1 = new Own_Triangle(Main.WIDTH-1,1,Main.WIDTH-101,1,Main.WIDTH-51,51);
+        triangle1.setColor(Color.GREEN);
         Own_Triangle triangle2 = triangle1.createClone();
-        Own_Triangle triangle3 = triangle1.createClone();
-        Own_Triangle triangle4 = triangle1.createClone();
-        //TODO implement the following method:
-        triangle3.changeCoords(1, 1, 100, 100,100,400);
-        triangle4.setColor(Color.YELLOW);
+        triangle2.setColor(Color.ORANGE);
+        triangle2.changeCoords(1,Main.HEIGHT, 101,Main.HEIGHT,51,Main.HEIGHT-51);
 
-        //TODO implement "equal" for the rect and triangle class.
-        //This method is called "equal", because their is an existing "equals" Method for each Object in Java.
-        //In order, Java is not using the equals method, we'll use the name "equal" for now
-        System.out.println(rect1.equal(rect2)); //Expected result: True
-        System.out.println(rect2.equal(rect1)); //Expected result: True
-        System.out.println(rect1.equal(rect3)); //Expected result: False
-        System.out.println(rect1.equal(rect4)); //Expected result: False
-        System.out.println(rect3.equal(rect4)); //Expected result: False
-        System.out.println(rect2.equal(rect4)); //Expected result: False
+        //TODO after the interface is created, implement the methods, so the correct results are returned
+        System.out.println(rect1.getCenter().toString());    //Should return 400,200
+        System.out.println(rect2.getCenter().toString());    //Should return 51,51
+        //Math behind getDistance for the given Points above: SQRT((400-51)^2+(200-51)^2)
+        System.out.println(rect1.getDistanceBetween(rect2));        //Should return ~379.48
+        System.out.println(rect2.getDistanceBetween(rect1));        //Should return ~379.48
 
-        System.out.println(triangle1.equal(triangle2)); //Expected result: True
-        System.out.println(triangle2.equal(triangle1)); //Expected result: True
-        System.out.println(triangle1.equal(triangle3)); //Expected result: False
-        System.out.println(triangle1.equal(triangle4)); //Expected result: False
-        System.out.println(triangle3.equal(triangle4)); //Expected result: False
-        System.out.println(triangle2.equal(triangle4)); //Expected result: False
+        System.out.println(triangle1.getCenter().toString());    //Should return 749,~17
+        System.out.println(triangle2.getCenter().toString());    //Should return 51,383
+        //Math behind getDistance for the given Points above: SQRT((749-51)^2+(17-383)^2)
+        System.out.println(triangle1.getDistanceBetween(triangle2));    //Should return ~788.14
 
+        //Drawing the shapes
+        drawDoubleShape(rect1);
+        drawDoubleShape(rect2);
+        drawDoubleShape(triangle1);
+        drawDoubleShape(triangle2);
     }
 
     /**
