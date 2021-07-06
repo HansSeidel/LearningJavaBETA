@@ -72,8 +72,7 @@ public class GraphicsPanel extends JPanel {
 
     /**
      * Draws a specific Shape with the given Coordinates Array
-     * @param shape -> String shape name
-     * @param coords -> double[] Coordinates Array
+     * @param obj -> double[] Coordinates Array
      */
     private void drawDoubleShape(Object obj){
         Color color;
