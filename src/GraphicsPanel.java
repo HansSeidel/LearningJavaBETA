@@ -32,42 +32,82 @@ public class GraphicsPanel extends JPanel {
         this.g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
 
         //Start drawing
-        /*TODO implement an IShape Interface inside the shape package for all the OwnShapes. Implement the following methods:
-            double[] getCoordinates()
-            String getShape()
-            Point getCenter() -> Returns the center of the object. (java.awt.Point)
-            double getDistanceBetween(Object o) -> Returns the distance to another Object of the same type (from Center to Center)
 
+        /*TODO implement an My_Math Class inside the Math package.
+            When we think about the getDistanceBetween Method we find out that the method is in each shape the same.
+                At least it could be the same in each Method.
+                So somehow we need to outsource the method, so we reduce redundancy.
+                Not only the getDistanceBetween Method is redundant but we will start with this method in this lection.
+                We will outsource the getDistanceBetween Method to the final My_Math Class.
+                It may also be outsourced to the class which we will created in Task 6. This is a matter of taste.
+                Keep in mind that the method getDistanceBetween must be removed from the Interface, if you remove it from the classes.
+                    In this case, it has been done already.
+            We will also implement the method getClosestShape(Object o, boolean same_type) to the Math Class.
+                The method shell be callable with 1 or 2 parameter: getClosestShape(Object o) | getClosestShape(Object o, boolean same_type)
+                    Tipp: to accomplish this use function overloading.
+                For the method getClosestShape we want to keep a look at the performance -> Tipp: The square root uses a lot of performance
+                We also need an Array of all Shapes, so we can iterator throw all the existing shapes.
+                To accomplish this a static ArrayList of the type Own_Rect, Own_Ellipse... is added to all Own_Shapes;
+                Fill the ArrayList with the each instance in each Class and use the ArrayList for the getClosestShape method.
+            For this task you should keep in mind where it is the best to deal with exceptions. Do not change any lines of code in
+            the GraphicsPanel class and try to cover all exceptions which will be thrown by the methods which are part of the class Object.
+            Tipp: For the work with the class Object you may take a look at the following lines inside the GraphicsPanel class: 78,79,123,124
          */
-        Own_Rect rect1 = new Own_Rect(Main.WIDTH / 2 - 50, Main.HEIGHT / 2 - 25, 100, 50);
+
+        /*TODO implement the methods so the program is working
+            We will color the Shapes as following:
+            The shape we will measure the distances will be green.
+            The shape which is the closest will be red.
+            The shape of the same type which is the closest will be orange.
+            An exmaple Image is placed is inside the TaskImages Folder
+        */
+        Own_Rect rect1 = new Own_Rect(Main.WIDTH - 300, Main.HEIGHT / 2 - 25, 100, 50);
         Own_Rect rect2 = rect1.createClone();
-        rect2.setColor(Color.BLUE);
+        rect1.setColor(Color.GREEN);
         rect2.changeCoords(1, 1, 100, 100);
 
-
         Own_Triangle triangle1 = new Own_Triangle(Main.WIDTH-1,1,Main.WIDTH-101,1,Main.WIDTH-51,51);
-        triangle1.setColor(Color.GREEN);
         Own_Triangle triangle2 = triangle1.createClone();
-        triangle2.setColor(Color.ORANGE);
         triangle2.changeCoords(1,Main.HEIGHT, 101,Main.HEIGHT,51,Main.HEIGHT-51);
 
-        //TODO after the interface is created, implement the methods, so the correct results are returned
-        System.out.println(rect1.getCenter().toString());    //Should return 400,200
-        System.out.println(rect2.getCenter().toString());    //Should return 51,51
-        //Math behind getDistance for the given Points above: SQRT((400-51)^2+(200-51)^2)
-        System.out.println(rect1.getDistanceBetween(rect2));        //Should return ~379.48
-        System.out.println(rect2.getDistanceBetween(rect1));        //Should return ~379.48
-
-        System.out.println(triangle1.getCenter().toString());    //Should return 749,~17
-        System.out.println(triangle2.getCenter().toString());    //Should return 51,383
+        //Using Object, because we don't know which Shape will be returned:
+        Object o1 = My_Math.getClosestShape(rect1);
+        Object o2 = My_Math.getClosestShape(rect1,true);
+        try {
+            o1.getClass().getMethod("setColor",Color.class).invoke(o1,Color.RED);
+            o2.getClass().getMethod("setColor",Color.class).invoke(o2,Color.ORANGE);
+        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException | NullPointerException e) {
+            e.printStackTrace();
+        }
         //Math behind getDistance for the given Points above: SQRT((749-51)^2+(17-383)^2)
-        System.out.println(triangle1.getDistanceBetween(triangle2));    //Should return ~788.14
+        System.out.println(My_Math.getDistanceBetween(triangle1,triangle2));    //Should return ~788.14
+
+
 
         //Drawing the shapes
         drawDoubleShape(rect1);
         drawDoubleShape(rect2);
         drawDoubleShape(triangle1);
         drawDoubleShape(triangle2);
+
+        //Drawing the results above the actual shapes...
+        /*
+            We need to draw the Objects above the given shapes, because we can not change the color of the actual objects.
+            Reason for that is the following:
+                With the keyword new, we create a new pointer to a specific object.
+                This pointer will be passed withing each method we'll use the object.
+                The arrayList also safes the pointer to the specific object.
+                But if we want to return any kind of Shape, we'll need to create a new object of type Object in order to store the specific object.
+                But we can't pass the reference in Java. As soon as we use the new keyword a new pointer is created.
+                The moment we assign the new object to the result of the closest method, a copy will be created which has the exact same properties.
+                We might compare the resulting object with each object type and with our equal method, but this is not that easy when we are using the
+                class Object.
+                So for simplicity we overdraw the object with it's exact copy.
+                This is possible, because the drawDoubleShape works with an instance of an Object as argument.
+         */
+        drawDoubleShape(o1);
+        drawDoubleShape(o2);
+
     }
 
     /**
@@ -82,7 +122,7 @@ public class GraphicsPanel extends JPanel {
             color = (Color) obj.getClass().getMethod("getColor").invoke(obj);
             shape = (String) obj.getClass().getMethod("getShape").invoke(obj);
             coords = Arrays.stream((double[])obj.getClass().getMethod("getCoordinates").invoke(obj)).mapToInt(coord -> (int)coord).toArray();
-        } catch (IllegalAccessException | InvocationTargetException | NoSuchMethodException e) {
+        } catch (IllegalAccessException | InvocationTargetException | NullPointerException | NoSuchMethodException e) {
             e.printStackTrace();
             return;
         }
