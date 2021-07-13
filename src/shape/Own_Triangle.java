@@ -19,6 +19,7 @@ public class Own_Triangle implements IShape{
         this.coordinates = new double[] {x1,y1,x2,y2,x3,y3};
         this.color = Color.WHITE;
         this.shape = "triangle";
+        INSTANCES.add(this);
     }
 
     public void setColor(Color color) {

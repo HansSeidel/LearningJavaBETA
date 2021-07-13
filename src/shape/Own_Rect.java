@@ -17,6 +17,7 @@ public class Own_Rect implements IShape{
         this.coordinates = new double[]{x, y, w, h};
         this.color = Color.WHITE;
         this.shape = "rect";
+        INSTANCES.add(this);
     }
 
     public void setColor(Color color) {
